@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
+        <script>
+            document.onreadystatechange = function()
+            {
+                documentOnLoad();
+            }
+            function documentOnLoad()
+            {     
+                function getEntities()
+                {
+                //получение id записи
+                var id = Xrm.Page.data.entity.getId();
+                console.error(id);
+                id.splice(0,id.length-1);
+                console.error(id);
+
+                var fetchData = {
+                    navde_marksid: id
+                };
+
+                var fetchXml = [
+                    "<fetch top='50'>",
+                    "  <entity name='navde_new_credit'>",
+                    "    <attribute name='navde_new_creditperiod' />",
+                    "    <attribute name='navde_new_creditid' />",
+                    "    <attribute name='navde_name' />",
+                    "    <link-entity name='navde_navde_new_credit_navde_new_auto' from='navde_new_creditid' to='navde_new_creditid'>",
+                    "      <link-entity name='navde_new_auto' from='navde_new_autoid' to='navde_new_autoid' link-type='inner'>",
+                    "        <attribute name='navde_new_autoid' />",
+                    "        <attribute name='navde_new_modelid' />",
+                    "        <link-entity name='navde_marks' from='navde_marksid' to='navde_new_brandid' link-type='inner'>",
+                    "          <attribute name='navde_markname' />",
+                    "          <attribute name='navde_marksid' />",
+                    "          <filter>",
+                    "            <condition attribute='navde_marksid' operator='eq' value='", fetchData.navde_marksid, "'/>",
+                    "          </filter>",
+                    "        </link-entity>",
+                    "      </link-entity>",
+                    "    </link-entity>",
+                    "  </entity>",
+                    "</fetch>",
+                        ].join("");
+                fetchXml = "?fetchXml=" + encodeURIComponent(fetchXml);
+
+                parent.Xrm.WebApi.retrieveMultipleRecords("navde_new_credit", fetchXml).then(
+                    function success(result) {
+                        console.error("перед выводом сущности в результе 2");
+                        console.error(result);
+                        console.error("перед выводом сущности в результе 2");
+                        for (var i = 0; i < result.entities.length; i++) 
+                        {
+                            console.error(result.entities[i]);
+                        }
+                        console.error("Pered table fill");
+                        tableFill(result);
+                        console.error("После fill");
+                    },
+                    function (error) {
+                        alert(error.message);                        
+                    }
+                );
+            }
+            function tableFill(entityArray) 
+            {
+                var table = document.createElement('table');
+                document.write('<div className="tracks-table"><table className="table">');
+                for (var i = 0; i < entityArray.length; i++) 
+                {
+                    var name = entityArray[i].navde_name;
+                    var mark = entityArray[i].navde_markname;
+                    var period = entityArray[i].navde_new_creditperiod;
+
+                    document.write('<tr className="mess-hide"><td className="name"><h4>' + name + '</h4></td><td className="mark"><h4>' + mark + '</h4></td><td className="period"><h4>' + period + '</h4></td></tr>');
+                }
+                document.write('</table></div>'); 
+            }
+        }
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>
