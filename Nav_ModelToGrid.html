@@ -4,82 +4,102 @@
         <script>
             document.onreadystatechange = function()
             {
-                documentOnLoad();
-            }
-            function documentOnLoad()
-            {     
-                function getEntities()
+                if(document.readyState=="complete")
                 {
-                //получение id записи
-                var id = Xrm.Page.data.entity.getId();
-                console.error(id);
-                id.splice(0,id.length-1);
-                console.error(id);
+                    //documentOnLoad();
+                }
+            }
+            function documentOnLoad(entityArray)
+            {                     
+                tableFill(entityArray);
+                console.error("after call teble fill");
+            }
 
-                var fetchData = {
-                    navde_marksid: id
+            function tableFill(entityArray) 
+            {
+                var table = document.getElementById('creditTable');
+                
+                for (var i = 0; i < entityArray.length; i++) 
+                {
+                    let tr = document.createElement("TR");
+
+
+                    let tdName = document.createElement("TD");
+                    var name = entityArray[i].navde_name;
+                    let txtNodeName = document.createTextNode(name);
+                    tdName.appendChild(txtNodeName);
+                    tdName.onclick = onClickName(entityArray[i].navde_new_creditid);
+
+
+                    let tdmark = document.createElement("TD");
+                    var mark = entityArray[i].navde_markname;
+                    let txtNodeMark = document.createTextNode(mark);
+                    tdmark.appendChild(txtNodeMark);
+                    tdmark.onclick = onClickMark(entityArray[i].navde_marksid);
+
+
+                    let tdperiod = document.createElement("TD");
+                    var period = entityArray[i].navde_new_creditperiod;
+                    let txtNodePeriod = document.createTextNode(period);
+                    tdperiod.appendChild(txtNodePeriod);
+                    
+                    
+                    tr.appendChild(tdName);
+                    tr.appendChild(tdmark);
+                    tr.appendChild(tdperiod);
+                }
+            }
+            function onClickName(creditId)
+            {
+                var pageInput = {
+                    pageType: "entityrecord",
+                    entityName: "navde_new_credit",
+                    entityId: creditId
+                };
+                var navigationOptions = {
+                    target: 2,
+                    height: {value: 80, unit:"%"},
+                    width: {value: 70, unit:"%"},
+                    position: 1
                 };
 
-                var fetchXml = [
-                    "<fetch top='50'>",
-                    "  <entity name='navde_new_credit'>",
-                    "    <attribute name='navde_new_creditperiod' />",
-                    "    <attribute name='navde_new_creditid' />",
-                    "    <attribute name='navde_name' />",
-                    "    <link-entity name='navde_navde_new_credit_navde_new_auto' from='navde_new_creditid' to='navde_new_creditid'>",
-                    "      <link-entity name='navde_new_auto' from='navde_new_autoid' to='navde_new_autoid' link-type='inner'>",
-                    "        <attribute name='navde_new_autoid' />",
-                    "        <attribute name='navde_new_modelid' />",
-                    "        <link-entity name='navde_marks' from='navde_marksid' to='navde_new_brandid' link-type='inner'>",
-                    "          <attribute name='navde_markname' />",
-                    "          <attribute name='navde_marksid' />",
-                    "          <filter>",
-                    "            <condition attribute='navde_marksid' operator='eq' value='", fetchData.navde_marksid, "'/>",
-                    "          </filter>",
-                    "        </link-entity>",
-                    "      </link-entity>",
-                    "    </link-entity>",
-                    "  </entity>",
-                    "</fetch>",
-                        ].join("");
-                fetchXml = "?fetchXml=" + encodeURIComponent(fetchXml);
-
-                parent.Xrm.WebApi.retrieveMultipleRecords("navde_new_credit", fetchXml).then(
-                    function success(result) {
-                        console.error("перед выводом сущности в результе 2");
-                        console.error(result);
-                        console.error("перед выводом сущности в результе 2");
-                        for (var i = 0; i < result.entities.length; i++) 
-                        {
-                            console.error(result.entities[i]);
-                        }
-                        console.error("Pered table fill");
-                        tableFill(result);
-                        console.error("После fill");
+                parent.Xrm.Navigation.navigateTo(pageInput,navigationOptions).then(
+                    function success() {
+                            // Run code on success
                     },
-                    function (error) {
-                        alert(error.message);                        
+                    function error(error) {
+                            console.error(error.message);
                     }
                 );
             }
-            function tableFill(entityArray) 
+            function onClickMark(markId)
             {
-                var table = document.createElement('table');
-                document.write('<div className="tracks-table"><table className="table">');
-                for (var i = 0; i < entityArray.length; i++) 
-                {
-                    var name = entityArray[i].navde_name;
-                    var mark = entityArray[i].navde_markname;
-                    var period = entityArray[i].navde_new_creditperiod;
+                var pageInput = {
+                    pageType: "entityrecord",
+                    entityName: "navde_new_credit",
+                    entityId: creditId
+                };
+                var navigationOptions = {
+                    target: 2,
+                    height: {value: 80, unit:"%"},
+                    width: {value: 70, unit:"%"},
+                    position: 1
+                };
 
-                    document.write('<tr className="mess-hide"><td className="name"><h4>' + name + '</h4></td><td className="mark"><h4>' + mark + '</h4></td><td className="period"><h4>' + period + '</h4></td></tr>');
-                }
-                document.write('</table></div>'); 
-            }
-        }
+                parent.Xrm.Navigation.navigateTo(pageInput,navigationOptions).then(
+                    function success() {
+                            // Run code on success
+                    },
+                    function error(error) {
+                            console.error(error.message);
+                    }
+                );
+            }       
         </script>
     </head>
     <body>
-        
+       <table id = "creditTable">
+
+       </table> 
     </body>
 </html>
