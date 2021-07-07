@@ -108,9 +108,6 @@
     <None Include="packages.config" />
     <None Include="test.plugins.snk" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="nav_building\" />
-    <Folder Include="Organization\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
