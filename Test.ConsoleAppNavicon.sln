@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.ConsoleAppNavicon", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Nav.Plugins", "Test.Nav.Plugins\Test.Nav.Plugins.csproj", "{A98C8FDF-7D37-47CF-B608-C3B9F21D1D4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Workflows", "Test.Workflows\Test.Workflows.csproj", "{7FE7B209-5628-48D9-9032-4B26B7237E4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A98C8FDF-7D37-47CF-B608-C3B9F21D1D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A98C8FDF-7D37-47CF-B608-C3B9F21D1D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A98C8FDF-7D37-47CF-B608-C3B9F21D1D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FE7B209-5628-48D9-9032-4B26B7237E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FE7B209-5628-48D9-9032-4B26B7237E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FE7B209-5628-48D9-9032-4B26B7237E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FE7B209-5628-48D9-9032-4B26B7237E4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
